@@ -1,4 +1,5 @@
 #This program generates random birthdays until there is a match.
+#User can decide how many simulations to run
 
 from random import randint
 
@@ -57,7 +58,7 @@ def dateCalendar(a):
         month = "January"
         day = a
         
-    print "The Common Birthday:", month, day
+    #print "The Common Birthday:", month, day
 
 #Checks all birthdays for commonality
 def findMatch(list):
@@ -66,16 +67,21 @@ def findMatch(list):
         for i in range (0,length):
             for j in range (i+1, length):
                 if list[i] == list[j]:
-                    print "All Birthdays:", list
-                    dateCalendar(list[i])
+                    #print "All Birthdays:", list
+                    #dateCalendar(list[i])
                     return True
     return False 
     
-#Prints population
+#Prints function for counter
 def printCounter(a):
     print "Amount of Total People:", a
 
-def main():
+#Print function for average
+def printAverage(avg, iter):
+    print "The average for", iter, "iterations is:", avg
+
+#Function used for each iteration of n
+def iteration():
     storage = []
     counter = 1
 
@@ -87,7 +93,32 @@ def main():
         storage.append(addPerson())
         counter += 1
         
-    #Print population results
-    printCounter(counter)
+    #printCounter(counter)
+    return counter
+
+#Gets input from only natural numbers
+def getInput():
+    n = raw_input ("How many times would you like to run this simulation? ")
+    while (not n.isdigit()) or (int(n)< 1):
+        n = raw_input ("Error. Please enter a whole number greater than 0: ")
+    n = int(n)
+    
+    return n
         
+def main():
+    n = getInput()
+    
+    dataStorage = []
+    
+    #Runs iterations n times
+    for i in range(0, n):
+        value = iteration()
+        dataStorage.append(value)
+        
+    #Averages all of the trials
+    nAvg = sum(dataStorage) / float(len(dataStorage))
+    
+    printAverage(nAvg, n)
+    
+    
 main()
