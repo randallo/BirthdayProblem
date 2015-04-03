@@ -5,7 +5,7 @@ from random import randint
 storage = []
 counter = 1
 
-#Generates person with random birthday
+#Generates random birthday
 def addPerson():
     date = randint(1,365)
     return date
@@ -63,7 +63,7 @@ def dateCalendar(a):
     print "The Common Birthday:", month, day
 
 #Checks all birthdays for commonality
-def checkDates(list):
+def findMatch(list):
     length = len(list)
     if len(list) > 2:
         for i in range (0,length):
@@ -79,16 +79,16 @@ def upCounter():
     global counter
     counter = counter + 1
     
-#Prints population when common birthday occurs
+#Prints population
 def printCounter():
     print "Amount of Total People:", counter
-    
+
 def main():
     #Add random birthday
     storage.append(addPerson())
     
-    #Checks if birthdays are common
-    if checkDates(storage):
+    #If birthdays are common, print population
+    if findMatch(storage):
         printCounter()
         
     #Occurs if no birthdays are common
