@@ -79,14 +79,19 @@ def upCounter():
     global counter
     counter = counter + 1
     
-#Prints population
+#Prints population when common birthday occurs
 def printCounter():
     print "Amount of Total People:", counter
     
 def main():
+    #Add random birthday
     storage.append(addPerson())
+    
+    #Checks if birthdays are common
     if checkDates(storage):
         printCounter()
+        
+    #Occurs if no birthdays are common
     else:
         upCounter()
         main()
