@@ -1,9 +1,6 @@
-#This program generates random birthdays until there is a match
+#This program generates random birthdays until there is a match.
 
 from random import randint
-
-storage = []
-counter = 1
 
 #Generates random birthday
 def addPerson():
@@ -69,31 +66,28 @@ def findMatch(list):
         for i in range (0,length):
             for j in range (i+1, length):
                 if list[i] == list[j]:
-                    #print "All Birthdays:", list
+                    print "All Birthdays:", list
                     dateCalendar(list[i])
                     return True
     return False 
-
-#Counter for population
-def upCounter():
-    global counter
-    counter = counter + 1
     
 #Prints population
-def printCounter():
-    print "Amount of Total People:", counter
+def printCounter(a):
+    print "Amount of Total People:", a
 
 def main():
+    storage = []
+    counter = 1
+
     #Add random birthday
     storage.append(addPerson())
     
-    #If birthdays are common, print population
-    if findMatch(storage):
-        printCounter()
+    #While there is not a match, add birthdays
+    while not(findMatch(storage)):
+        storage.append(addPerson())
+        counter += 1
         
-    #Occurs if no birthdays are common
-    else:
-        upCounter()
-        main()
-    
+    #Print population results
+    printCounter(counter)
+        
 main()
