@@ -1,4 +1,6 @@
 #This program generates random birthdays until there is a match.
+#A list with 366 indices (0 ignored) are used, each index represents a day
+#When an index on the list hits 2, then a match has occured
 #The amount of birthdays is recorded when the match occurs
 #This amount is averaged if more than one simulation is done
 #User can decide how many simulations to run
@@ -64,18 +66,6 @@ def dateCalendar(num):
         
     #print "The Common Birthday:", month, day
 
-#Checks all birthdays for commonality
-def findMatch(list):
-    length = len(list)
-    if len(list) > 2:
-        for i in range (0,length):
-            for j in range (i+1, length):
-                if list[i] == list[j]:
-                    #print "All Birthdays:", list
-                    #print "i:", i, "j:", j, "k:", k
-                    #dateCalendar(list[i])
-                    return True
-    return False
     
 #Prints function for counter
 def printCounter(a):
@@ -85,21 +75,38 @@ def printCounter(a):
 def printAverage(avg, iter):
     print "The average for", iter, "iterations is:", avg
 
+#Checks birthdays for commonality
+#If birthday has already occured once, return true.
+def findMatch(list, day):
+    if list[day] == 1:
+        return True
+    else:
+        return False
+
+#Extends a list so you can index up to 'size' amount
+def arrayExtender(size, list):
+    for i in range (0, size):
+        list.append(0)
+    
+    return list
+
 #Function used for each iteration of n.
 #Returns amount of people until birthday match.
 def iteration():
-    storage = []
+    birthdayList = []
+    birthdayList = arrayExtender(366, birthdayList)
     counter = 1
-
-    #Add random birthday
-    storage.append(addPerson())
     
-    #While there is not a match, add birthdays
-    while not(findMatch(storage)):
-        storage.append(addPerson())
+    #Add random birthday
+    randBirthday = addPerson()
+    
+    #If no match, increment day on birthdayList list and add another birthday
+    while not(findMatch(birthdayList, randBirthday)):
+        del birthdayList[randBirthday]
+        birthdayList.insert(randBirthday, 1)
+        randBirthday = addPerson()
         counter += 1
         
-    #printCounter(counter)
     return counter
 
 #Gets input from only natural numbers
@@ -126,12 +133,11 @@ def repeat():
         print "Invalid input. Please input 'Yes' or 'No'"
         repeat()
         
-        
 def main():
     n = getInput()
-    
     timerBegin = time.time()
     
+    #Stores counters for each trial
     dataStorage = []
     
     #Runs iterations n times
@@ -148,6 +154,8 @@ def main():
     
     if repeat():
         main()
+    else:
+        quit()
     
     
 main()
