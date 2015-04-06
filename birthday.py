@@ -1,62 +1,66 @@
 #This program generates random birthdays until there is a match.
+#The amount of birthdays is recorded when the match occurs
+#This amount is averaged if more than one simulation is done
 #User can decide how many simulations to run
 
 from random import randint
+import time
 
 #Generates random birthday
 def addPerson():
     date = randint(1,365)
     return date
 
-#Calendar translation for date number
-def dateCalendar(a):
-    if a > 334:
+#Calendar translation for day number. 
+#Argument would be a day from 1-365.
+def dateCalendar(num):
+    if num > 334:
         month = "December"
-        day = a - 334
+        day = num - 334
     
-    elif a > 304:
+    elif num > 304:
         month = "November"
-        day = a - 304
+        day = num - 304
         
-    elif a > 273:
+    elif num > 273:
         month = "October"
-        day = a - 273
+        day = num - 273
         
-    elif a > 243:
+    elif num > 243:
         month = "September"
-        day = a - 243
+        day = num - 243
         
-    elif a > 212:
+    elif num > 212:
         month = "August"
-        day = a - 212
+        day = num - 212
         
-    elif a > 181:
+    elif num > 181:
         month = "July"
-        day = a - 181
+        day = num - 181
         
-    elif a > 151:
+    elif num > 151:
         month = "June"
-        day = a - 151
+        day = num - 151
         
-    elif a > 120:
+    elif num > 120:
         month = "May"
-        day = a - 120
+        day = num - 120
         
-    elif a > 90:
+    elif num > 90:
         month = "April"
-        day = a - 90
+        day = num - 90
         
-    elif a > 59:
+    elif num > 59:
         month = "March"
-        day = a - 59
+        day = num - 59
         
-    elif a > 31:
+    elif num > 31:
         month = "February"
-        day = a - 31
+        day = num - 31
 
     else:
         month = "January"
-        day = a
+        day = num
         
     #print "The Common Birthday:", month, day
 
@@ -68,9 +72,10 @@ def findMatch(list):
             for j in range (i+1, length):
                 if list[i] == list[j]:
                     #print "All Birthdays:", list
+                    #print "i:", i, "j:", j, "k:", k
                     #dateCalendar(list[i])
                     return True
-    return False 
+    return False
     
 #Prints function for counter
 def printCounter(a):
@@ -80,7 +85,8 @@ def printCounter(a):
 def printAverage(avg, iter):
     print "The average for", iter, "iterations is:", avg
 
-#Function used for each iteration of n
+#Function used for each iteration of n.
+#Returns amount of people until birthday match.
 def iteration():
     storage = []
     counter = 1
@@ -104,21 +110,44 @@ def getInput():
     n = int(n)
     
     return n
+
+#Allows user to do more simulations after the first
+def repeat():
+    n = raw_input ("Would you like to run this simulation again? ")
+    n = str(n)
+    
+    if n.lower() == 'y' or n.lower() == 'yes':
+        print "\n"
+        return True
+    elif n.lower() == 'n' or n.lower() == 'no':
+        print "\n"
+        return False
+    else:
+        print "Invalid input. Please input 'Yes' or 'No'"
+        repeat()
+        
         
 def main():
     n = getInput()
+    
+    timerBegin = time.time()
     
     dataStorage = []
     
     #Runs iterations n times
     for i in range(0, n):
-        value = iteration()
-        dataStorage.append(value)
+        numPeople = iteration()
+        dataStorage.append(numPeople)
         
     #Averages all of the trials
     nAvg = sum(dataStorage) / float(len(dataStorage))
     
     printAverage(nAvg, n)
+    timerEnd = time.time()
+    print "Time to run", n, "simulation(s): ", timerEnd - timerBegin, "seconds."
+    
+    if repeat():
+        main()
     
     
 main()
