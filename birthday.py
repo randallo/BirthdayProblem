@@ -118,21 +118,25 @@ def getInput():
     
     return n
 
+def exitProgram():
+    print "Exiting program."
+    quit()
+
 #Allows user to do more simulations after the first
 def repeat():
-    n = raw_input ("Would you like to run this simulation again? ")
-    n = str(n)
+    choice = raw_input ("Would you like to run this simulation again? ")
+    choice = choice.lower()
+    while not(choice == 'yes' or choice == 'no' or choice == 'y' or choice == 'n'):
+        choice = raw_input ("Invalid input. Please input 'Yes' or 'No': ")
     
-    if n.lower() == 'y' or n.lower() == 'yes':
+    if choice == 'yes' or choice == 'y':
         print "\n"
         return True
-    elif n.lower() == 'n' or n.lower() == 'no':
-        print "\n"
-        return False
     else:
-        print "Invalid input. Please input 'Yes' or 'No'"
-        repeat()
-        
+        print " "
+        return False
+    
+    
 def main():
     n = getInput()
     timerBegin = time.time()
@@ -155,7 +159,7 @@ def main():
     if repeat():
         main()
     else:
-        quit()
+        exitProgram()
     
     
 main()
